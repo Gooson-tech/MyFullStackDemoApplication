@@ -33,6 +33,7 @@ public class MessageController {
             return new ResponseEntity<StudentRegistration>(student, HttpStatus.OK);
         }
         else{
+            studentRepository.save(student);
             return new ResponseEntity<StudentRegistration>(student, HttpStatus.OK);
         }
     }
