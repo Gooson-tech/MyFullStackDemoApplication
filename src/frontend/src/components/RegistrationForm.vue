@@ -21,8 +21,9 @@
       <label>Semester :</label>
       <select id="semester" v-model="semester" required>
         <option value="" disabled></option>
-        <option value="fall2022">Fall</option>
+        <option value="spring2022">Spring</option>
         <option value="summer2022">Summer</option>
+        <option value="fall2022">Fall</option>
       </select>
 
       <label>Course :</label>
@@ -40,7 +41,9 @@
         <button type="submit">Submit</button>
       </div>
 
-      <span id="errorSpan">{{errors.join(", ") }}</span>
+      <span id="errorSpan" v-if="Array.isArray(errors)">{{errors.join(", ") }}</span>
+      <span id="errorSpan" v-else> {{errors}} </span>
+
       <span id="successSpan">{{successMessage}}</span>
     </form>
 
@@ -60,10 +63,12 @@ export default {
   data() {
     return {
       courseList: {
-        "fall2022": ["Algebra I", "Economics I", "Algebra II", "Earth science", "French I"],
-        "summer2022": ["American literature", "Life science", "Comparative literature", "Botany"]
+        "spring2022": [""],
+        "fall2022": [""],
+        "summer2022": [""]
+     /* OLD  "fall2022": ["Algebra I", "Economics I", "Algebra II", "Earth science", "French I"],
+        "summer2022": ["American literature", "Life science", "Comparative literature", "Botany"]*/
       },
-
       firstName: '',
       lastName:'',
       email: '',
@@ -114,11 +119,46 @@ export default {
       this.course = '';
       this.courses = [];
       //set courses depending on the selected semester
-      this.courses = this.courseList[selected]
+      this.courses = this.courseList[selected];
     }
 
   },
-  mounted() {}
+  mounted: function () {
+
+    fetch("/api/getClassesInSpring2022")
+        .then(response => response.text())
+        .then(spring => {
+          let springParsed = JSON.parse(spring);
+          let coursePrint = [];
+          springParsed.forEach(
+              (course) => coursePrint.push(`${(course.name)}, Section: ${(course.section)}, Credits: ${course.credit}`)
+          );
+          this.courseList.spring2022 = coursePrint;
+        });
+
+    fetch("/api/getClassesInSummer2022")
+        .then(response => response.text())
+        .then(summer => {
+          let summerParsed = JSON.parse(summer);
+          let coursePrint = [];
+          summerParsed.forEach(
+              (course) => coursePrint.push(`${(course.name)}, Section: ${(course.section)}, Credits: ${course.credit}`)
+          );
+          this.courseList.summer2022 = coursePrint;
+        });
+
+    fetch("/api/getClassesInFall2022")
+        .then(response => response.text())
+        .then(fall => {
+          let fallParsed = JSON.parse(fall);
+          let coursePrint = [];
+          fallParsed.forEach(
+              (course) => coursePrint.push(`${(course.name)}, Section: ${(course.section)}, Credits: ${course.credit}`)
+          );
+          this.courseList.fall2022 = coursePrint;
+        });
+
+  }
 }
 </script>
 
@@ -145,14 +185,6 @@ form {
   display: inline-block;
   margin: 25px 0 15px;
   font-size: 20px;
-}
-orm {
-  max-width: 600px;
-  margin: 30px auto;
-  background: #fff;
-  text-align: left;
-  padding: 20px;
-  border-radius: 10px;
 }
 
 label {

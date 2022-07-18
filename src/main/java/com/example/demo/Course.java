@@ -15,7 +15,9 @@ public class Course implements Serializable {
     private String name;
     private String section;
     private int number;
-    private float credits;
+    private float credit;
+    private int attending;
+    private int maxStudent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -44,12 +46,12 @@ public class Course implements Serializable {
         this.number = number;
     }
 
-    public float getCredits() {
-        return credits;
+    public float getCredit() {
+        return credit;
     }
 
-    public void setCredits(float credits) {
-        this.credits = credits;
+    public void setCredit(float credit) {
+        this.credit = credit;
     }
     public String getSemester() {
         return semester;
@@ -58,19 +60,20 @@ public class Course implements Serializable {
     public void setSemester(String semester) {
         this.semester = semester;
     }
-    public Course() {
-    }
+    public Course() {}
 
     public Long getId() {
         return id;
     }
 
-    public Course(String name, String section, int number, String semester, float credits) {
+    public Course(String name, String section, int number, String semester, float credit, int attending, int maxStudent) {
        this.name= name;
        this.section=section;
        this.number=number;
-       this.credits=credits;
+       this.credit=credit;
        this.semester=semester;
+       this.attending = attending;
+       this.maxStudent= maxStudent;
     }
 
     @Override
@@ -79,10 +82,28 @@ public class Course implements Serializable {
                 "name='" + name + '\'' +
                 ", section='" + section + '\'' +
                 ", number='" + number + '\'' +
-                ", credits='" + credits + '\'' +
+                ", credit='" + credit + '\'' +
                 ", id=" + id +
                 '}';
     }
 
 
+    public int getAttending() {
+        return attending;
+    }
+
+    public void setAttending(int attending) {
+        this.attending = attending;
+    }
+    public void addAttending(int attending) {
+        this.attending += attending;
+    }
+
+    public int getMaxStudent() {
+        return maxStudent;
+    }
+
+    public void setMaxStudent(int maxStudent) {
+        this.maxStudent = maxStudent;
+    }
 }

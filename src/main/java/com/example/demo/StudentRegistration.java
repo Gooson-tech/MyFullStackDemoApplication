@@ -14,6 +14,7 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class StudentRegistration implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,6 +35,7 @@ public class StudentRegistration implements Serializable {
     String course = "";
     @Size(max = 400)
     String note = "";
+
 
     public String getFirstName() {
         return firstName;
@@ -83,8 +85,7 @@ public class StudentRegistration implements Serializable {
         this.note = note;
     }
 
-    public StudentRegistration() {
-    }
+    public StudentRegistration() {}
 
     public Long getId() {
         return id;
@@ -111,4 +112,5 @@ public class StudentRegistration implements Serializable {
                 ", note='" + note + '\'' +
                 '}';
     }
+
 }
